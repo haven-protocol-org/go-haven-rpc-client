@@ -2,7 +2,7 @@ Go Haven RPC Client
 ====================
 
 <p align="center">
-<img src="https://github.com/monero-ecosystem/go-monero-rpc-client/raw/master/media/img/monero_gopher.png" alt="Monero Gopher" width="200" />
+<img src="https://github.com/haven-protocol-org/brand-assets/blob/master/Branding%20Kit/png/black/rounded.png" alt="Monero Gopher" width="200" />
 </p>
 
 A client implementation for the Haven wallet and daemon RPC written in go.
