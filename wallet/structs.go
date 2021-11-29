@@ -290,7 +290,45 @@ type RequestTransferSplit struct {
 	NewAlgorithm bool `json:"new_algorithm"`
 	// (Optional) Return list of transaction metadata needed to relay the transfer later.
 	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
+	// (Optinal) Arbitrary 255 byte memo data
+	Memo string `json:"memo"`
 }
+
+// XassetTransfer()
+type RequestXassetTransfer struct {
+	// Array of destinations to receive XMR:
+	Destinations []*Destination `json:"destinations"`
+	// (Optional) Transfer from this account index. (Defaults to 0)
+	AccountIndex uint64 `json:"account_index"`
+	// (Optional) Transfer from this set of subaddresses. (Defaults to empty - all indices)
+	SubaddrIndices []uint64 `json:"subaddr_indices"`
+	// Number of outputs from the blockchain to mix with (0 means no mixing).
+	Mixin uint64 `json:"mixin"`
+	// (Optional) Sets ringsize to n (mixin + 1).
+	RingSize uint64 `json:"ring_size,omitempty"`
+	// Number of blocks before the monero can be spent (0 to not add a lock).
+	UnlockTime uint64 `json:"unlock_time"`
+	// (Optional) Random 32-byte/64-character hex string to identify a transaction.
+	PaymendID string `json:"payment_id"`
+	// (Optional) Return the transaction keys after sending.
+	GetxKeys bool `json:"get_tx_keys"`
+	// Set a priority for the transactions. Accepted Values are: 0-3 for: default, unimportant, normal, elevated, priority.
+	Priority Priority `json:"priority"`
+	// (Optional) If true, the newly created transaction will not be relayed to the monero network. (Defaults to false)
+	DoNotRelay bool `json:"do_not_relay,omitempty"`
+	// (Optional) Return the transactions as hex string after sending
+	GetTxHex bool `json:"get_tx_hex,omitempty"`
+	// True to use the new transaction construction algorithm, defaults to false.
+	NewAlgorithm bool `json:"new_algorithm"`
+	// (Optional) Return list of transaction metadata needed to relay the transfer later.
+	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
+	// Asset type to be transfered.
+	AssetType string `json:"asset_type"`
+	// (Optinal) Arbitrary 255 byte memo data
+	Memo string `json:"memo"`
+}
+
+// OffshoreTransfer(), XassetTransfer()
 type ResponseTransferSplit struct {
 	// The tx hashes of every transaction.
 	TxHashList []string `json:"tx_hash_list"`
@@ -308,6 +346,28 @@ type ResponseTransferSplit struct {
 	MultisigTxSet string `json:"multisig_txset"`
 	// Set of unsigned tx for cold-signing purposes.
 	UnsignedTxSet string `json:"unsigned_txset"`
+}
+type ResponseXassetTransfer struct {
+	// The tx hashes of every transaction.
+	TxHashList []string `json:"tx_hash_list"`
+	// The transaction keys for every transaction.
+	TxKeyList []string `json:"tx_key_list"`
+	// The amount transferred for every transaction.
+	AmountList []uint64 `json:"amount_list"`
+	// The amount of fees paid for every transaction.
+	FeeList []uint64 `json:"fee_list"`
+	// The tx as hex string for every transaction.
+	TxBlobList []string `json:"tx_blob_list"`
+	// List of transaction metadata needed to relay the transactions later.
+	TxMetadataList []string `json:"tx_metadata_list"`
+	// The set of signing keys used in a multisig transaction (empty for non-multisig).
+	MultisigTxSet string `json:"multisig_txset"`
+	// Set of unsigned tx for cold-signing purposes.
+	UnsignedTxSet string `json:"unsigned_txset"`
+	// Amount asset type
+	AmountAsset string `json:"amount_asset"`
+	// Fee asset type. This is extranous and will be likely to be remove in the future. Because Amount asset and fee asset types will always be the same.
+	FeeAsset string `json:"fee_asset"`
 }
 
 // SignTransfer()
@@ -1007,6 +1067,31 @@ type RequestStartMining struct {
 type ResponseGetLanguages struct {
 	// List of available languages
 	Languages []string `json:"languages"`
+}
+
+type ResponseCreateWalletFromKeys struct {
+	// The wallet's address.
+	Address string `json:"address"`
+	// Verification message indicating that the wallet was generated successfully and whether or not it is a view-only wallet.
+	Info string `json:"info"`
+}
+
+// CreateWalletFromKeys()
+type RequestCreateWalletFromKeys struct {
+	// (Optional) The block height to restore the wallet from. (Defaults to 0)
+	RestoreHeight int64 `json:"restore_height"`
+	// Wallet file name.
+	Filename string `json:"filename"`
+	// The wallet's primary address.
+	Address string `json:"address"`
+	// (Optional - omit to create a view-only wallet) The wallet's private spend key.
+	SpendKey string `json:"spendkey"`
+	// The wallet's private view key.
+	ViewKey string `json:"viewkey"`
+	// The wallet's password.
+	Password string `json:"password"`
+	// (Optional) If true, save the current wallet before generating the new wallet. (Defaults to true)
+	AutoSaveCurrent bool `json:"autosave_current"`
 }
 
 // CreateWallet()
