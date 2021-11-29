@@ -1,4 +1,4 @@
-module github.com/monero-ecosystem/go-monero-rpc-client
+module github.com/haven-protocol-org/go-haven-rpc-client
 
 go 1.14
 

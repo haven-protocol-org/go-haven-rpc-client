@@ -19,7 +19,7 @@ the rest of the methods can be found in for version `v1.3` of the [Monero Wallet
 ### Installation
 
 ```sh
-go get -u https://github.com/haven-protocol-org/go-haven-rpc-client
+go get -u github.com/haven-protocol-org/go-haven-rpc-client
 ```
 
 #### Spawn the haven-wallet-rpc daemon (without rpc login):
