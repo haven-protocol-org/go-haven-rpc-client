@@ -17,6 +17,8 @@ type SignedKeyImage struct {
 type RequestGetBalance struct {
 	// Return balance for this account.
 	AccountIndex uint64 `json:"account_index"`
+	// Return balance for this asset.
+	AssetType string `json:"asset_type"`
 	// (Optional) Return balance detail for those subaddresses.
 	AddressIndices []uint64 `json:"address_indices"`
 }

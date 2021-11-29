@@ -1,32 +1,32 @@
-Go Monero RPC Client
+Go Haven RPC Client
 ====================
 
 <p align="center">
 <img src="https://github.com/monero-ecosystem/go-monero-rpc-client/raw/master/media/img/monero_gopher.png" alt="Monero Gopher" width="200" />
 </p>
 
-A client implementation for the Monero wallet and daemon RPC written in go.
-This package is inspired by https://github.com/gabstv/go-monero.
+A client implementation for the Haven wallet and daemon RPC written in go.
+This repo is a fork of https://github.com/monero-ecosystem/go-monero-rpc-client and modified for Haven.
 
 ## Wallet RPC Client
 
 [![GoDoc](https://godoc.org/github.com/monero-ecosystem/go-monero-rpc-client/wallet?status.svg)](https://godoc.org/github.com/monero-ecosystem/go-monero-rpc-client/wallet)
 
-### Monero RPC Version
-The ```go-monero-rpc-client/wallet``` package is the RPC client for version `v1.3` of the [Monero Wallet RPC](https://www.getmonero.org/resources/developer-guides/wallet-rpc.html).
+### Haven RPC Version
+The ```go-haven-rpc-client/wallet``` package is the RPC client of the [Haven Wallet RPC](https://docs.havenprotocol.org/rpc/1.2.9q/RPC_API.html) for the avaible methods and 
+the rest of the methods can be found in for version `v1.3` of the [Monero Wallet RPC](https://www.getmonero.org/resources/developer-guides/wallet-rpc.html).
 
 ### Installation
 
 ```sh
-go get -u github.com/monero-ecosystem/go-monero-rpc-client
+go get -u https://github.com/haven-protocol-org/go-haven-rpc-client
 ```
 
-#### Spawn the monero-wallet-rpc daemon (without rpc login):
+#### Spawn the haven-wallet-rpc daemon (without rpc login):
 
 ```sh
-./monero-wallet-rpc --wallet-file /home/$user/stagenetwallet/stagenetwallet --daemon-address pool.cloudissh.com:38081 --stagenet --rpc-bind-port 6061 --password 'mystagenetwalletpassword' --disable-rpc-login
+./haven-wallet-rpc --wallet-file /home/$user/stagenetwallet/stagenetwallet --stagenet --rpc-bind-port 6061 --password 'mystagenetwalletpassword' --disable-rpc-login
 ```
-You can use our remote node for the stagenet running at pool.cloudissh.com port `38081`.
 
 #### Go code:
 
@@ -38,7 +38,7 @@ import (
   "fmt"
   "log"
 
-  "github.com/monero-ecosystem/go-monero-rpc-client/wallet"
+  "github.com/haven-protocol-org/go-haven-rpc-client/wallet"
 )
 
 func checkerr(err error) {
@@ -54,7 +54,7 @@ func main() {
   })
 
   // check wallet balance
-  resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0})
+  resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0, AssetType: "XHV"})
   checkerr(err)
   res, _ := json.MarshalIndent(resp, "", "\t")
   fmt.Print(string(res))
@@ -75,7 +75,7 @@ func main() {
 ### Spawn the monero-wallet-rpc daemon (with rpc login):
 
 ```sh
-./monero-wallet-rpc --wallet-file /home/$user/stagenetwallet/stagenetwallet --daemon-address pool.cloudissh.com:38081 --stagenet --rpc-bind-port 6061 --password 'mystagenetwalletpassword' --rpc-login test:testpass
+./haven-wallet-rpc --wallet-file /home/$user/stagenetwallet/stagenetwallet --stagenet --rpc-bind-port 6061 --password 'mystagenetwalletpassword' --rpc-login test:testpass
 ```
 
 #### Go code:
@@ -88,7 +88,7 @@ import (
   "fmt"
   "log"
 
-  "github.com/monero-ecosystem/go-monero-rpc-client/wallet"
+  "github.com/haven-protocol-org/go-haven-rpc-client/wallet"
 )
 
 func checkerr(err error) {
@@ -107,7 +107,7 @@ func main() {
   })
 
   // check wallet balance
-  resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0})
+  resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0, AssetType: "XHV"})
   checkerr(err)
   res, _ := json.MarshalIndent(resp, "", "\t")
   fmt.Print(string(res))
@@ -132,15 +132,6 @@ As of now, only the wallet RPC has been implemented. The daemon RPC will follow 
 # Contribution
 * You can fork this, extend it and contribute back.
 * You can contribute with pull requests.
-
-# Donations
-I love Monero (XMR) and building applications for and on top of Monero.
-
-You can make me happy by donating Monero to the following address:
-
-```
-89woiq9b5byQ89SsUL4Bd66MNfReBrTwNEDk9GoacgESjfiGnLSZjTD5x7CcUZba4PBbE3gUJRQyLWD4Akz8554DR4Lcyoj
-```
 
 # LICENSE
 MIT License
