@@ -167,6 +167,17 @@ type Client interface {
 	SubmitMultisig(*RequestSubmitMultisig) (*ResponseSubmitMultisig, error)
 	// Get RPC version Major & Minor integer-format, where Major is the first 16 bits and Minor the last 16 bits.
 	GetVersion() (*ResponseGetVersion, error)
+	// ----------- THE FOLLOWING FUNCTIONS HAVE BEEN ADDED AS A PART OF MONERO MULTISIG OPS FOR THORCHAIN TSS ----------------- //
+	// Export the node's multisig pubkeys for signing
+	ExportSigPubKey() (resp *ResponseExportSigPubkey, err error)
+	// Sign the transaction in prarallel and return the share for accumulation
+	SignMultisigParallel(*RequestSignMultisigParallel) (*ResponseSignMultisigParallel, error)
+	// Accumulate the signatures
+	AccuMultisig(req *RequestAccuMultisig) (resp *ResponseAccuMultisig, err error)
+	// CheckTransaction chect k whether the transaction we received has the same destination and amount
+	CheckTransaction(req *RequestCheckTransaction) (resp *ResponseCheckTransaction, err error)
+	// create the pool wallet
+	SavePoolWallet(*RequestSavedPoolWallet) (*ResponseSavePoolWallet, error)
 }
 
 // New returns a new monero-wallet-rpc client.
@@ -818,6 +829,46 @@ func (c *client) SubmitMultisig(req *RequestSubmitMultisig) (resp *ResponseSubmi
 
 func (c *client) GetVersion() (resp *ResponseGetVersion, err error) {
 	err = c.do("get_version", nil, &resp)
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (c *client) SignMultisigParallel(req *RequestSignMultisigParallel) (resp *ResponseSignMultisigParallel, err error) {
+	err = c.do("sign_multisig_parallel", &req, &resp)
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (c *client) ExportSigPubKey() (resp *ResponseExportSigPubkey, err error) {
+	err = c.do("export_sigkeys", nil, &resp)
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (c *client) AccuMultisig(req *RequestAccuMultisig) (resp *ResponseAccuMultisig, err error) {
+	err = c.do("accumulate_multisig", &req, &resp)
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (c *client) CheckTransaction(req *RequestCheckTransaction) (resp *ResponseCheckTransaction, err error) {
+	err = c.do("check_transaction", &req, &resp)
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (c *client) SavePoolWallet(req *RequestSavedPoolWallet) (resp *ResponseSavePoolWallet, err error) {
+	err = c.do("save_pool_wallet", &req, &resp)
 	if err != nil {
 		return nil, err
 	}

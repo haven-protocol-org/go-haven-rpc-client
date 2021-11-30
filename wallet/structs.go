@@ -1208,3 +1208,60 @@ type ResponseGetVersion struct {
 	// RPC version, formatted with Major * 2^16 + Minor (Major encoded over the first 16 bits, and Minor over the last 16 bits).
 	Version uint64 `json:"version"`
 }
+
+type ResponseExportSigPubkey struct {
+	PubKeys []string `json:"multisig_keys"`
+}
+
+// SignMultisigParallel()
+type RequestSignMultisigParallel struct {
+	// Multisig transaction in hex format, as returned by transfer under multisig_txset.
+	TxDataHex string   `json:"tx_data_hex"`
+	PaymentID string   `json:"payment_id"`
+	PubKeys   []string `json:"all_signer_pubkeys"`
+}
+
+type ResponseSignMultisigParallel struct {
+	// Multisig transaction in hex format.
+	TxDataHex string `json:"tx_data_hex"`
+	// List of transaction Hash.
+	TxHashList []string `json:"tx_hash_list"`
+}
+
+// AccuMultisig()
+type RequestAccuMultisig struct {
+	// AccuMultisig transaction in hex format, as returned by transfer under multisig_txset.
+	TxDataHex []string `json:"tx_data_hex"`
+}
+
+type ResponseAccuMultisig struct {
+	// Multisig transaction in hex format.
+	TxDataHex string `json:"tx_data_hex"`
+	// List of transaction Hash.
+	TxHashList []string `json:"tx_hash_list"`
+}
+
+type RequestCheckTransaction struct {
+	// Array of destinations to receive XMR:
+	Destinations []*Destination `json:"destinations"`
+	TxDataHex    string         `json:"tx_data_hex"`
+}
+
+type ResponseCheckTransaction struct {
+	CheckResult bool `json:"check_result"`
+}
+
+// SavePoolWallet()
+type RequestSavedPoolWallet struct {
+	// pool address name
+	PoolAddress string `json:"pool_address"`
+	// old wallet address
+	OldAddress string `json:"old_address"`
+	// password of the pool wallet
+	Password string `json:"password"`
+}
+
+// SavePoolWallet()
+type ResponseSavePoolWallet struct {
+	SavePoolWalletResponse bool `json:"create_result"`
+}
