@@ -168,6 +168,8 @@ type Client interface {
 	// Get RPC version Major & Minor integer-format, where Major is the first 16 bits and Minor the last 16 bits.
 	GetVersion() (*ResponseGetVersion, error)
 	// ----------- THE FOLLOWING FUNCTIONS HAVE BEEN ADDED AS A PART OF MONERO MULTISIG OPS FOR THORCHAIN TSS ----------------- //
+	// exchange the share for multisig N-X/N wallet
+	ExchangeMultiSigKeys(*RequestExchangeMultisigKeys) (*ResponseExchangeMultisig, error)
 	// Export the node's multisig pubkeys for signing
 	ExportSigPubKey() (resp *ResponseExportSigPubkey, err error)
 	// Sign the transaction in prarallel and return the share for accumulation
@@ -797,6 +799,14 @@ func (c *client) ExportMultisigInfo() (resp *ResponseExportMultisigInfo, err err
 
 func (c *client) ImportMultisigInfo(req *RequestImportMultisigInfo) (resp *ResponseImportMultisigInfo, err error) {
 	err = c.do("import_multisig_info", &req, &resp)
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (c *client) ExchangeMultiSigKeys(req *RequestExchangeMultisigKeys) (resp *ResponseExchangeMultisig, err error) {
+	err = c.do("exchange_multisig_keys", &req, &resp)
 	if err != nil {
 		return nil, err
 	}

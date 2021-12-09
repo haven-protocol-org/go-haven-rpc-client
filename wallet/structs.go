@@ -258,6 +258,9 @@ type ResponseTransfer struct {
 	TxKey      string `json:"tx_key"`
 	TxMetadata string `json:"tx_metadata"` // TxMetadata tx_metadata - Set of transaction metadata needed to relay this transfer later, if get_tx_metadata is true.
 
+	// The set of signing keys used in a multisig transaction (empty for non-multisig).
+	MultisigTxSet string `json:"multisig_txset"`
+
 	// String. Set of unsigned tx for cold-signing purposes.
 	UnsignedTxSet string `json:"unsigned_txset"`
 }
@@ -1211,6 +1214,21 @@ type ResponseGetVersion struct {
 
 type ResponseExportSigPubkey struct {
 	PubKeys []string `json:"multisig_keys"`
+}
+
+// ExchangeMultisig()
+type RequestExchangeMultisigKeys struct {
+	// List of multisig string from peers.
+	MultisigInfo []string `json:"multisig_info"`
+	// Wallet password
+	Password string `json:"password"`
+}
+
+type ResponseExchangeMultisig struct {
+	// returned multisig info
+	MultisigInfo string `json:"multisig_info"`
+	// wallet address
+	Address string `json:"address"`
 }
 
 // SignMultisigParallel()
