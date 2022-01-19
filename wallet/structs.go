@@ -242,6 +242,8 @@ type RequestTransfer struct {
 	GetTxHex bool `json:"get_tx_hex,omitempty"`
 	// (Optional) Return the metadata needed to relay the transaction. (Defaults to false)
 	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
+	// (Optinal) Arbitrary 255 byte memo data
+	Memo string `json:"memo"`
 }
 type ResponseTransfer struct {
 	// Amount transferred for the transaction.
