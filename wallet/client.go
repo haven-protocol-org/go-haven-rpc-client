@@ -42,10 +42,6 @@ type Client interface {
 	Transfer(*RequestTransfer) (*ResponseTransfer, error)
 	// Same as transfer, but can split into more than one tx if necessary.
 	TransferSplit(*RequestTransferSplit) (*ResponseTransferSplit, error)
-	// Same as transfer split, but for XUSD transfers.
-	OffshoreTransfer(*RequestTransferSplit) (*ResponseXassetTransfer, error)
-	// Same as transfer split, but for XASSET transfers.
-	XassetTransfer(*RequestXassetTransfer) (*ResponseXassetTransfer, error)
 	// Sign a transaction created on a read-only wallet (in cold-signing process)
 	SignTransfer(*RequestSignTransfer) (*ResponseSignTransfer, error)
 	// Submit a previously signed transaction on a read-only wallet (in cold-signing process).
@@ -358,20 +354,6 @@ func (c *client) Transfer(req *RequestTransfer) (resp *ResponseTransfer, err err
 
 func (c *client) TransferSplit(req *RequestTransferSplit) (resp *ResponseTransferSplit, err error) {
 	err = c.do("transfer_split", &req, &resp)
-	if err != nil {
-		return nil, err
-	}
-	return
-}
-func (c *client) OffshoreTransfer(req *RequestTransferSplit) (resp *ResponseXassetTransfer, err error) {
-	err = c.do("offshore_transfer", &req, &resp)
-	if err != nil {
-		return nil, err
-	}
-	return
-}
-func (c *client) XassetTransfer(req *RequestXassetTransfer) (resp *ResponseXassetTransfer, err error) {
-	err = c.do("xasset_transfer", &req, &resp)
 	if err != nil {
 		return nil, err
 	}
