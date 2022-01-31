@@ -680,8 +680,11 @@ type ResponseCheckTxKey struct {
 	Confirmations uint64 `json:"confirmations"`
 	// States if the transaction is still in pool or has been added to a block.
 	InPool bool `json:"in_pool"`
-	// Amount of the transaction.
-	Received uint64 `json:"received"`
+	// Amounts that are recieved in this tx. Asset type of the amount is
+	// in the ReceivedAssets same index.
+	ReceivedAmounts uint64 `json:"received_amounts"`
+	// Asset types that are recieved in this tx.
+	ReceivedAssets string `json:"received_assets"`
 }
 
 // GetTxProof()
