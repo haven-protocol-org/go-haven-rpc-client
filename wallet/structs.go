@@ -682,9 +682,9 @@ type ResponseCheckTxKey struct {
 	InPool bool `json:"in_pool"`
 	// Amounts that are recieved in this tx. Asset type of the amount is
 	// in the ReceivedAssets same index.
-	ReceivedAmounts uint64 `json:"received_amounts"`
+	ReceivedAmounts []uint64 `json:"received_amounts"`
 	// Asset types that are recieved in this tx.
-	ReceivedAssets string `json:"received_assets"`
+	ReceivedAssets []string `json:"received_assets"`
 }
 
 // GetTxProof()
