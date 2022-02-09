@@ -562,24 +562,32 @@ type RequestIncomingTransfers struct {
 	// (Optional) Enable verbose output, return key image if true.
 	Verbose bool `json:"verbose"`
 }
+
+type TransferDetail struct {
+	// Amount of this transfer.
+	Amount uint64 `json:"amount"`
+	// Asset type of the output
+	AssetType string `json:"asset_type"`
+	// Mostly internal use, can be ignored by most users.
+	GlobalIndex uint64 `json:"global_index"`
+	// Key image for the incoming transfer's unspent output (empty unless verbose is true).
+	KeyImage string `json:"key_image"`
+	// Indicates if this transfer has been spent.
+	Spent bool `json:"spent"`
+	// Subaddress index for incoming transfer.
+	SubaddrIndex struct {
+		Minor uint64 `json:"minor"`
+		Major uint64 `json:"major"`
+	} `json:"subaddr_index"`
+	// Several incoming transfers may share the same hash if they were in the same transaction.
+	TxHash string `json:"tx_hash"`
+	// Size of transaction in bytes.
+	TxSize uint64 `json:"tx_size"`
+}
+
 type ResponseIncomingTransfers struct {
 	// list of transfers:
-	Transfers struct {
-		// Amount of this transfer.
-		Amount uint64 `json:"amount"`
-		// Mostly internal use, can be ignored by most users.
-		GlobalIndex uint64 `json:"global_index"`
-		// Key image for the incoming transfer's unspent output (empty unless verbose is true).
-		KeyImage string `json:"key_image"`
-		// Indicates if this transfer has been spent.
-		Spent bool `json:"spent"`
-		// Subaddress index for incoming transfer.
-		SubaddrIndex uint64 `json:"subaddr_index"`
-		// Several incoming transfers may share the same hash if they were in the same transaction.
-		TxHash string `json:"tx_hash"`
-		// Size of transaction in bytes.
-		TxSize uint64 `json:"tx_size"`
-	} `json:"transfers"`
+	Transfers []TransferDetail `json:"transfers"`
 }
 
 // QueryKey()
