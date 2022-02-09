@@ -583,6 +583,8 @@ type TransferDetail struct {
 	TxHash string `json:"tx_hash"`
 	// Size of transaction in bytes.
 	TxSize uint64 `json:"tx_size"`
+	// block height when we recieve this ouput
+	BlockHeight uint64 `json:"block_height"`
 }
 
 type ResponseIncomingTransfers struct {
