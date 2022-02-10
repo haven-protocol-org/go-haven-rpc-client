@@ -585,6 +585,10 @@ type TransferDetail struct {
 	TxSize uint64 `json:"tx_size"`
 	// block height when we recieve this ouput
 	BlockHeight uint64 `json:"block_height"`
+	// frozen
+	Frozen bool `json:"frozen"`
+	// output is spendable or not
+	Unlocked bool `json:"unlocked"`
 }
 
 type ResponseIncomingTransfers struct {
