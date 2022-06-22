@@ -211,6 +211,7 @@ func (c *client) do(method string, in, out interface{}) error {
 	if err != nil {
 		return err
 	}
+	req.Close = true
 	if c.headers != nil {
 		for k, v := range c.headers {
 			req.Header.Set(k, v)
